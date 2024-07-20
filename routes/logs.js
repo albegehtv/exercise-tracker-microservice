@@ -1,13 +1,13 @@
-// routes/logs.js
 const express = require('express');
 const router = express.Router();
 const Exercise = require('../models/Exercise');
 const User = require('../models/User');
 
 // Obtener el log de ejercicios
-router.get('/', async (req, res) => {
-  const userId = req.params._id;  // Asegúrate de que esto se está extrayendo correctamente
+router.get('/:id/logs', async (req, res) => {
+  const userId = req.params.id;
   const { from, to, limit } = req.query;
+
   try {
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ error: 'User not found' });
@@ -18,6 +18,7 @@ router.get('/', async (req, res) => {
     if (limit) query = query.limit(parseInt(limit));
 
     const exercises = await query.exec();
+
     res.json({
       username: user.username,
       count: exercises.length,

@@ -1,4 +1,3 @@
-// index.js
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -21,9 +20,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
 
 // Routes
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/views/index.html');
+});
+
 app.use('/api/users', require('./routes/users'));
-app.use('/api/users/:_id/exercises', require('./routes/exercises'));
-app.use('/api/users/:_id/logs', require('./routes/logs'));
+app.use('/api/users', require('./routes/exercises'));
+app.use('/api/users', require('./routes/logs'));
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
